@@ -6,3 +6,6 @@ This is other helpful scripts and reference for sdp but doesn't contain the repo
 #wiki
 
 here is the link to the sdp ev3 wiki:
+https://wiki.inf.ed.ac.uk/SDP/EV3Guide
+
+
