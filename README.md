@@ -15,3 +15,8 @@ https://wiki.inf.ed.ac.uk/SDP/EV3Guide
 <strong>Arduino</strong>
 Good for lots of senors and motors. Exteral software required for large motors see wiki page
 
+https://wiki.inf.ed.ac.uk/SDP/ArduinoGuide
+
+
+
+
