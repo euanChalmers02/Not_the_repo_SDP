@@ -1,0 +1,5 @@
+If we need to go down the robot excemption route:
+    * wifi location tracking for customised reminders
+    * customed sound/ messages/ sound board for our if
+    * further developing our computer vision plan
+    *
