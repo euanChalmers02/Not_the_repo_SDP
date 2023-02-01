@@ -1,0 +1,26 @@
+import pyttsx3
+
+
+class TextToSpeech:
+    ########################################
+    # for user notification messages (more to its own file)
+    #######################################
+
+    MSG_CACHE_PATH = 'Desktop/recorded_msg'
+
+    def save_msg_to_cache(input_text, file_name):
+        if 'wav' not in file_name:
+            file_name = file_name + '.wav'
+
+        engine = pyttsx3.init()
+        # engine.say("this is a test save of an audio recording")
+        engine.save_to_file(input_text, MSG_CACHE_PATH + "/" + file_name)
+        # engine.runAndWait()
+        engine.stop()
+
+    def play_msg_cache(file_name):
+        if 'wav' not in file_name:
+            file_name = file_name + '.wav'
+        [y, sr] = librosa.load(MSG_CACHE_PATH + "/" + file_name)
+
+        sd.play(y.transpose(), sr)
