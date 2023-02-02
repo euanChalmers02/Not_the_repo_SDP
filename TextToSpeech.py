@@ -1,4 +1,6 @@
+import librosa
 import pyttsx3
+import sounddevice as sd
 
 
 class TextToSpeech:
@@ -9,6 +11,9 @@ class TextToSpeech:
     MSG_CACHE_PATH = 'Desktop/recorded_msg'
 
     def save_msg_to_cache(input_text, file_name):
+        if input_text == "":
+            return
+
         if 'wav' not in file_name:
             file_name = file_name + '.wav'
 

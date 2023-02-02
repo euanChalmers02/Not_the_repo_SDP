@@ -4,7 +4,7 @@ from Sound import Sound
 if __name__ == '__main__':
     # example sound
     print('started')
-    rx = Sound(220, 0, 10, "Hellow this is a test speach", True)  # add each of the params for a sound here
+    rx = Sound(220, 0, "Hellow this is a test speach", True)  # add each of the params for a sound here
 
     # we might want to cache each of the beeps instead to speed up the process
     # can otimise by loading in most meta data into the system on startup

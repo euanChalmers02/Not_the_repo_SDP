@@ -1,5 +1,6 @@
 import numpy as np
 import librosa
+import pyttsx3
 from scipy import signal
 import sounddevice as sd
 import time
@@ -7,15 +8,53 @@ import time
 
 # import pyttsx3
 
+# adjustable output parameters
+beep_pause = 800
+beep_duration = 0.4
+
 # static helper function
 def closest_value(input_list, input_value):
     arr = np.asarray(input_list)
     i = (np.abs(arr - input_value)).argmin()
     return arr[i]
 
+
+def convert_to_file(coord):
+    pass
+
+
+def coord_to_bearing(x_val):
+    bearing = 360-(((x_val-640)/640)*90) if x_val > 640 else 90-((x_val/640)*90)
+    print("-- BEARING:", bearing)
+    return bearing
+
+
+def coord_to_elevation(y_val):
+    if y_val < 180:
+        elevation = 45
+    elif y_val > 540:
+        elevation = 315
+    else:
+        elevation = 0
+
+    print("-- ELEVATION:", elevation)
+    return elevation
+
+
 class Sound:
-    RECHERCHE_SOURCE_FILES = '/Users/euanchalmers/Desktop/SoundProject/Sound_Files/IRC_1002/COMPENSATED/WAV'
-    BEEP_SOUND_ONE = '/Users/euanchalmers/Desktop/SoundProject/Sound_Files/beep-10.wav'
+    # Lea's paths:
+    # RECHERCHE_SOURCE_FILES = '/Users/neo/Documents/SoundProject/Sound_Files/IRC_1002/COMPENSATED/WAV/'
+    # TEST_SOURCE_SOUND = '/Users/neo/Documents/SoundProject/CantinaBand3.wav'
+    # BEEP_SOUND_ONE = '/Users/neo/Documents/SoundProject/Sound_Files/beep-10.wav'
+
+    # Euan's paths:
+    # RECHERCHE_SOURCE_FILES = '/Users/euanchalmers/Desktop/SoundProject/Sound_Files/IRC_1002/COMPENSATED/WAV'
+    # BEEP_SOUND_ONE = '/Users/euanchalmers/Desktop/SoundProject/Sound_Files/beep-10.wav'
+
+    # TODO: need to make these relative
+
+    RECHERCHE_SOURCE_FILES = '/Users/neo/Documents/SoundProject/Sound_Files/IRC_1002/COMPENSATED/WAV/'
+    BEEP_SOUND_ONE = '/Users/neo/Documents/SoundProject/Sound_Files/beep-10.wav'
 
     def __init__(self, coord, distance, text, beep):
         self.coord = coord
@@ -25,6 +64,8 @@ class Sound:
         self.beep = beep
         self.Bin_Max = None
         self.freq = None  # this will be either true or false
+        self.bearing = coord_to_bearing(coord[0])
+        self.elevation = coord_to_elevation(coord[1])
 
     # finds the best datset sound to use based on your inputs
 
@@ -57,7 +98,7 @@ class Sound:
             self.elevation = elev
 
         print(ANGLES_IN_DATASET)
-        print(self.bearing)
+        # print(self.bearing)
 
     def driver(self, file):
         HRIR_RE, fs_H0 = librosa.load(self.RECHERCHE_SOURCE_FILES + file, sr=48000, mono=False)
@@ -90,12 +131,14 @@ class Sound:
         print(end - start)
 
     def play(self):
-        duration = 0.5
         sd.play(self.Bin_Max, self.freq)
-        sd.sleep(int(duration * 1000))
+        sd.sleep(int(beep_duration * beep_pause))
         sd.stop()
 
     def textToSpeech(self):
+        if self.text == "":
+            return
+
         engine = pyttsx3.init()
         engine.say(self.text)
         engine.runAndWait()

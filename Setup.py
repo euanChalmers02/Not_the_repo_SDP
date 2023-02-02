@@ -1,3 +1,6 @@
+from Sound import closest_value
+
+
 class Setup:
     def __init__(self, DEFAULT_CAMERA_WIDTH, DEFAULT_CAMERA_HEIGHT, DEFAULT_FIELD_OF_VIEW_WIDTH,
                  DEFAULT_FIELD_OF_VIEW_HEIGHT):
