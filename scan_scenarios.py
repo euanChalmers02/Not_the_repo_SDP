@@ -2,6 +2,7 @@ import time
 import unittest
 
 from Sound import Sound
+from TextToSpeech import *
 
 """
 Use https://www.mobilefish.com/services/record_mouse_coordinates/record_mouse_coordinates.php
@@ -18,9 +19,15 @@ object type:
 4 - [H, ST, LT]
 """
 
-no_beeps = 3
+num_beeps = 3
 pause_length = 1
 # three trained signs; generic announcements
+# generic_announcements = {
+#     edhelp_sign: "Ed Help sign",
+#     exit_sign: "Exit sign",
+#     toilet_sign: "Toilet sign",
+#     long_text: "Long text"
+# }
 edhelp_sign = "Ed Help sign"
 exit_sign = "Exit sign"
 toilet_sign = "Toilet sign"
@@ -30,13 +37,19 @@ def play_sounds(all_objects):
     for o in all_objects:
         o.create_3d()
         o.textToSpeech()
-        for _ in range(no_beeps):
+        for _ in range(num_beeps):
             o.play()
         time.sleep(pause_length)
+
+def load_cache_sounds():
+    TextToSpeech.save_msg_to_cache(edhelp_sign, "edhelp_sign")
+
 
 class scan_scenarios(unittest.TestCase):
     # real-image scenarios
     def test_real_lib_1(self):
+        load_cache_sounds()
+
         obj1 = Sound([583,281], 0, "Object 1. " + edhelp_sign, True)
         obj2 = Sound([1097,60], 0, "Object 2. " + "Library Cafe", True)
         all_objects = [obj1, obj2]
@@ -67,7 +80,10 @@ class scan_scenarios(unittest.TestCase):
         play_sounds(all_objects)
 
     # other synthetic scenarios.
-
+    """
+    - too many objects (5+)
+    - 
+    """
 
 if __name__ == '__main__':
     unittest.main()
